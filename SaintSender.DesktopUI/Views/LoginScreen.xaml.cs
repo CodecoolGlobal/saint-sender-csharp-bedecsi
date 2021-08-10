@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using SaintSender.Core;
+using SaintSender.Core.Models;
 
 namespace SaintSender.DesktopUI.Views
 {
@@ -19,9 +21,76 @@ namespace SaintSender.DesktopUI.Views
     /// </summary>
     public partial class LoginScreen : Window
     {
+        private Credentials UserOne = new Credentials("bedecsi2ndtw1@gmail.com", "IHateWPF");
+        private Credentials UserTwo = new Credentials("bedecsi2ndtw2@gmail.com", "IHateWPF");
+        private Credentials UserThree = new Credentials("bedecsi2ndtw3@gmail.com", "IHateWPF");
+        private MainWindow MainWindow;
         public LoginScreen()
         {
             InitializeComponent();
+        }
+
+        private void btnSubmit_Click(object sender, RoutedEventArgs e)
+        {
+            if(Verification())
+            {
+                MainWindow = new MainWindow();
+                MainWindow.Show();
+                this.Close();
+            }
+        }
+
+        private bool Verification()
+        {
+
+            if (!UserNameVerification()) 
+            {
+                MessageBox.Show("Wrong Username Or Password!");
+                return false;
+            }
+            if (!PasswordVerification())
+            {
+                MessageBox.Show("Wrong Username Or Password!");
+                return false;
+            }
+            if (MatchVerification())
+            {
+                return true;        
+            } else
+            {
+                MessageBox.Show("Wrong Username Or Password!");
+                return false;
+            }
+
+
+        }
+
+
+        private bool UserNameVerification()
+        {
+            if (UserOne.EmailAddress.Equals(txtUsername.Text) || UserTwo.EmailAddress.Equals(txtUsername.Text) || UserThree.EmailAddress.Equals(txtUsername.Text))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool PasswordVerification()
+        {
+            if(UserOne.Password.Equals(txtPassword.Password) || UserTwo.Password.Equals(txtPassword.Password) || UserThree.Password.Equals(txtPassword.Password))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool MatchVerification()
+        {
+            if((UserOne.EmailAddress.Equals(txtUsername.Text) && UserOne.Password.Equals(txtPassword.Password)) || (UserTwo.EmailAddress.Equals(txtUsername.Text) && UserTwo.Password.Equals(txtPassword.Password)) || (UserThree.EmailAddress.Equals(txtUsername.Text) && UserThree.Password.Equals(txtPassword.Password)))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
