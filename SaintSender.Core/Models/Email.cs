@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SaintSender.Core.Models
 {
-    class Email
+    public class Email
     {
         public string Sender { get; set; }
         public string Subject { get; set; }
