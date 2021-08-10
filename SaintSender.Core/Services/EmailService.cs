@@ -8,6 +8,24 @@ namespace SaintSender.Core.Services
 {
     public class EmailService
     {
+        public bool Authenticate(Credentials credentials)
+        {
+            using (var client = new SmtpClient())
+            {
+                try
+                {
+                    client.Connect("smtp.gmail.com", 587, false);
+                    client.Authenticate(credentials.EmailAddress, credentials.Password);
+                    client.Disconnect(true);
+                    return true;
+                }
+                catch (System.Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
         public void Send(string to, Credentials from, string subject, string content)
         {
             var message = new MimeMessage();
