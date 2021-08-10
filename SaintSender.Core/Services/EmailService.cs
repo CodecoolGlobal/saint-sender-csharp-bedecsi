@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using MailKit.Net.Pop3;
 using MailKit.Net.Smtp;
-using MailKit;
 using MimeKit;
 using SaintSender.Core.Models;
-using System.Net;
 
 namespace SaintSender.Core.Services
 {
@@ -30,6 +25,26 @@ namespace SaintSender.Core.Services
                 client.Authenticate(from.EmailAddress, from.Password);
                 client.Send(message);
                 client.Disconnect(true);
+            }
+        }
+
+        public List<Email> RetrieveEmails(Credentials email)
+        {
+            List<Email> emails = new List<Email>();
+            using (var client = new Pop3Client())
+            {
+                client.Connect("pop.gmail.com", 995, false);
+
+                client.Authenticate(email.EmailAddress, email.Password);
+
+                for (int i = 0; i < client.Count; i++)
+                {
+                    var message = client.GetMessage(i);
+                    emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.Body.ToString()));
+                }
+
+                client.Disconnect(true);
+                return emails;
             }
         }
     }
