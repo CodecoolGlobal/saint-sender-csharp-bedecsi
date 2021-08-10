@@ -69,7 +69,7 @@ namespace SaintSender.Core.Services
                     foreach (var item in items)
                     {
                         var message = client.Inbox.GetMessage(item);
-                        emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.Body.ToString()));
+                        emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.TextBody.ToString()));
                     }
 
                     client.Disconnect(true);
