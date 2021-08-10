@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,15 +29,18 @@ namespace SaintSender.DesktopUI.Views
         public LoginScreen()
         {
             InitializeComponent();
+            MainWindow = new MainWindow();
         }
+
+
+
 
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
             if(Verification())
             {
-                MainWindow = new MainWindow();
                 MainWindow.Show();
-                this.Close();
+                Close();
             }
         }
 
@@ -91,6 +95,35 @@ namespace SaintSender.DesktopUI.Views
                 return true;
             }
             return false;
+        }
+
+        private void NetCheck_Click(object sender, RoutedEventArgs e)
+        {
+            if(CheckNetwork())
+            {
+                MessageBox.Show("You have internet connection.");
+            } else
+            {
+                MessageBox.Show("Don't haven internet connection.");
+            }
+        }
+
+        private bool CheckNetwork()
+        {
+            WebRequest webRequest = WebRequest.Create("http://www.google.com");
+            WebResponse webResponse;
+            try
+            {
+                webResponse = webRequest.GetResponse();
+                webResponse.Close();
+                webRequest = null;
+                return true;
+            }
+            catch(Exception)
+            {
+                webRequest = null;
+                return false;
+            }
         }
     }
 }
