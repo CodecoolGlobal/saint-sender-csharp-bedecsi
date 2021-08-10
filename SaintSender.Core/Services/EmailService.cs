@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using MailKit.Net.Pop3;
 using MailKit.Net.Smtp;
 using MimeKit;
@@ -51,18 +53,33 @@ namespace SaintSender.Core.Services
             List<Email> emails = new List<Email>();
             using (var client = new Pop3Client())
             {
-                client.Connect("pop.gmail.com", 995, false);
+                //client.Connect("pop.gmail.com", 995, false);
 
-                client.Authenticate(email.EmailAddress, email.Password);
+                //client.Authenticate(email.EmailAddress, email.Password);
 
-                for (int i = 0; i < client.Count; i++)
+                //for (int i = 0; i < client.Count; i++)
+                //{
+                //    var message = client.GetMessage(i);
+                //    emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.Body.ToString()));
+                //}
+
+                if (client.IsConnected && client.IsAuthenticated)
                 {
-                    var message = client.GetMessage(i);
-                    emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.Body.ToString()));
-                }
+                    for (int i = 0; i < client.Count; i++)
+                    {
+                        var message = client.GetMessage(i);
+                        emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.Body.ToString()));
+                    }
 
-                client.Disconnect(true);
-                return emails;
+                    client.Disconnect(true);
+                    return emails;
+                }
+                else
+                {
+                    emails.Add(new Email("hellowpf@gmail.com", "Retrieved message", DateTime.Now.Date, "This is a test message from code"));
+                    return emails;
+                }
+                
             }
         }
     }
