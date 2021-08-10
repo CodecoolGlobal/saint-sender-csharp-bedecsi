@@ -32,7 +32,7 @@ namespace SaintSender.DesktopUI.Views
 
         private void SendBtn_Click(object sender, RoutedEventArgs e)
         {
-            _vm.SendEmail(to.Text, new Credentials("", "", ""), subject.Text, body.Text); //TODO: Bence a new Credentials helyére tedd ide légyszi a loginelt credentialst
+            _vm.SendEmail(to.Text, new Credentials("bedecsi2ndtw1@gmail.com", "IHateWPF", "Be Decsi"), subject.Text, body.Text); //TODO: Bence a new Credentials helyére tedd ide légyszi a loginelt credentialst
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
