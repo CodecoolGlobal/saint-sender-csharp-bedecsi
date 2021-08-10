@@ -5,16 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaintSender.DesktopUI.Views"
         mc:Ignorable="d"
-        Title="LoginScreen" Height="450" Width="380" FontSize="14" Background="#93A3B1">
+        Title="LoginScreen" Height="480" Width="380" FontSize="14" Background="#93A3B1">
     <Border Background="#7C898B" CornerRadius="20" Margin="25">
         <StackPanel Margin="20">
-            <Label Content="Login" Foreground="White" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+            <Label Content="Login" Foreground="White" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center">
+               
+            </Label> 
             <Separator Margin="15" Background="White"></Separator>
             <Label Content="Username" Foreground="White" FontSize="25" Margin="30 0"/>
             <TextBox x:Name="txtUsername" Background="#93A3B1" Foreground="White" FontSize="20" Margin="30 10"/>
             <Label Content="Password" Foreground="White" FontSize="25" Margin=" 30 0"/>
             <PasswordBox x:Name="txtPassword" Background="#93A3B1" Foreground="White" FontSize="20" Margin="30 10"/>
-            <Button x:Name="btnSubmit" Content="Submit"  Background="#93A3B1" Foreground="White" FontSize="20" Margin="80 10"/>
+            <Button x:Name="btnSubmit" Content="Submit" Click="btnSubmit_Click" Background="#93A3B1" Foreground="White" FontSize="20" Margin="80 10"/>
+            <Button x:Name="NetCheck" Margin="120 10" Content="Net" Background="#93A3B1" Foreground="White"  Click="NetCheck_Click" />
         </StackPanel>
     </Border>
 </Window>
