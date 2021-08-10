@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using MailKit;
+using MailKit.Net.Imap;
 using MailKit.Net.Pop3;
 using MailKit.Net.Smtp;
+using MailKit.Search;
 using MimeKit;
 using SaintSender.Core.Models;
 
@@ -51,23 +54,21 @@ namespace SaintSender.Core.Services
         public List<Email> RetrieveEmails(Credentials email)
         {
             List<Email> emails = new List<Email>();
-            using (var client = new Pop3Client())
+            using (var client = new ImapClient())
             {
-                //client.Connect("pop.gmail.com", 995, false);
+                client.Connect("imap.gmail.com", 993, true);
 
-                //client.Authenticate(email.EmailAddress, email.Password);
+                client.Authenticate(email.EmailAddress, email.Password);
+                client.Inbox.Open(FolderAccess.ReadOnly);
 
-                //for (int i = 0; i < client.Count; i++)
-                //{
-                //    var message = client.GetMessage(i);
-                //    emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.Body.ToString()));
-                //}
-
+                var items = client.Inbox.Search(SearchQuery.All);
+                
+                // else is needed for testing purposes
                 if (client.IsConnected && client.IsAuthenticated)
                 {
-                    for (int i = 0; i < client.Count; i++)
+                    foreach (var item in items)
                     {
-                        var message = client.GetMessage(i);
+                        var message = client.Inbox.GetMessage(item);
                         emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.Body.ToString()));
                     }
 
