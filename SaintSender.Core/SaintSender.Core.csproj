@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IBackupable.cs" />
     <Compile Include="Models\Credentials.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Services\EmailService.cs" />
@@ -65,9 +66,35 @@
   <ItemGroup>
     <None Include="Models\ReadMe.md" />
     <None Include="Interfaces\ReadMe.md" />
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Debug\SaintSender.Core.csproj.AssemblyReference.cache" />
+    <None Include="obj\Debug\SaintSender.Core.csproj.CopyComplete" />
+    <None Include="obj\Debug\SaintSender.Core.csproj.CoreCompileInputs.cache" />
     <None Include="packages.config" />
     <None Include="ReadMe.md" />
     <None Include="Services\ReadMe.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\BouncyCastle.Crypto.dll" />
+    <Content Include="bin\Debug\BouncyCastle.Crypto.xml" />
+    <Content Include="bin\Debug\MailKit.dll" />
+    <Content Include="bin\Debug\MailKit.pdb" />
+    <Content Include="bin\Debug\MailKit.xml" />
+    <Content Include="bin\Debug\MimeKit.dll" />
+    <Content Include="bin\Debug\MimeKit.pdb" />
+    <Content Include="bin\Debug\MimeKit.xml" />
+    <Content Include="bin\Debug\SaintSender.Core.dll" />
+    <Content Include="bin\Debug\SaintSender.Core.pdb" />
+    <Content Include="bin\Debug\System.Buffers.dll" />
+    <Content Include="bin\Debug\System.Buffers.xml" />
+    <Content Include="obj\Debug\SaintSender.Core.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\SaintSender.Core.dll" />
+    <Content Include="obj\Debug\SaintSender.Core.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Release\" />
+    <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
