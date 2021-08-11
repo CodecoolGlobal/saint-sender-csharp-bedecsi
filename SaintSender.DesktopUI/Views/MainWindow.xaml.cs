@@ -1,6 +1,7 @@
 ﻿using SaintSender.Core.Models;
 using SaintSender.DesktopUI.ViewModels;
 using System.Windows;
+using System.Windows.Input;
 
 namespace SaintSender.DesktopUI
 {
@@ -32,6 +33,12 @@ namespace SaintSender.DesktopUI
         {
             _serializer.DeleteXMLfiles();
             MessageBox.Show("Your Credentials have been removed!");
+        }
+
+        void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Double click!");
+
         }
     }
 
