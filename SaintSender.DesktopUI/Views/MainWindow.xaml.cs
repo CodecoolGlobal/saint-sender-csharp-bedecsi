@@ -19,13 +19,9 @@ namespace SaintSender.DesktopUI
             DataContext = _vm;
             _serializer = new Serializer();
             InitializeComponent();
+            EmailsListView.ItemsSource = _vm.Emails;
         }
 
-        private void GreetBtn_Click(object sender, RoutedEventArgs e)
-        {
-            // dispatch user interaction to view model
-            _vm.Greet();
-        }
 
         private void LogoutlButton_Click(object sender, RoutedEventArgs e)
         {
