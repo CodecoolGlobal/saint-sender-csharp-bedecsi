@@ -1,4 +1,5 @@
-﻿using SaintSender.DesktopUI.ViewModels;
+﻿using SaintSender.Core.Models;
+using SaintSender.DesktopUI.ViewModels;
 using SaintSender.DesktopUI.Views;
 using System.Windows;
 
@@ -24,6 +25,13 @@ namespace SaintSender.DesktopUI
         {
             NewEmail newEmail = new NewEmail();
             newEmail.Show();
+        }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            EmailsListView.ItemsSource = null;
+            _vm.CollectEmails(new Credentials("bedecsi2ndtw1@gmail.com", "IHateWPF", ""));
+            EmailsListView.ItemsSource = _vm.Emails;
         }
     }
 }
