@@ -20,8 +20,12 @@ namespace SaintSender.DesktopUI.Views
     /// <summary>
     /// Interaction logic for NewEmail.xaml
     /// </summary>
+    /// 
+    
     public partial class NewEmail : Page
     {
+        public Credentials Credentials { get; set; }
+
         NewEmailViewModel _vm;
         public NewEmail()
         {
@@ -32,7 +36,8 @@ namespace SaintSender.DesktopUI.Views
 
         private void SendBtn_Click(object sender, RoutedEventArgs e)
         {
-            _vm.SendEmail(to.Text, new Credentials("", "", ""), subject.Text, body.Text); //TODO: Bence a new Credentials helyére tedd ide légyszi a loginelt credentialst
+            _vm.SendEmail(to.Text, Credentials, subject.Text, body.Text);
+
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)

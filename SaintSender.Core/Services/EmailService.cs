@@ -1,6 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using MailKit;
+using MailKit.Net.Imap;
 using MailKit.Net.Pop3;
 using MailKit.Net.Smtp;
+using MailKit.Search;
+using MailKit.Security;
 using MimeKit;
 using SaintSender.Core.Models;
 
@@ -8,22 +14,28 @@ namespace SaintSender.Core.Services
 {
     public class EmailService
     {
-        public bool Authenticate(Credentials credentials)
+        public bool Authenticate(string username, string password)
         {
             using (var client = new SmtpClient())
             {
+                client.CheckCertificateRevocation = false;
+                client.Connect("smtp.gmail.com", 587, SecureSocketOptions.Auto);
+                
                 try
                 {
-                    client.Connect("smtp.gmail.com", 587, false);
-                    client.Authenticate(credentials.EmailAddress, credentials.Password);
+                    client.Authenticate(username, password);
                     client.Disconnect(true);
                     return true;
+
                 }
                 catch (System.Exception)
                 {
+                    client.Disconnect(true);
                     return false;
                 }
+           
             }
+                      
         }
 
         public void Send(string to, Credentials from, string subject, string content)
@@ -49,20 +61,33 @@ namespace SaintSender.Core.Services
         public List<Email> RetrieveEmails(Credentials email)
         {
             List<Email> emails = new List<Email>();
-            using (var client = new Pop3Client())
+            using (var client = new ImapClient())
             {
-                client.Connect("pop.gmail.com", 995, false);
+                client.Connect("imap.gmail.com", 993, true);
 
                 client.Authenticate(email.EmailAddress, email.Password);
+                client.Inbox.Open(FolderAccess.ReadOnly);
 
-                for (int i = 0; i < client.Count; i++)
+                var items = client.Inbox.Search(SearchQuery.All);
+                
+                // else is needed for testing purposes
+                if (client.IsConnected && client.IsAuthenticated)
                 {
-                    var message = client.GetMessage(i);
-                    emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.Body.ToString()));
-                }
+                    foreach (var item in items)
+                    {
+                        var message = client.Inbox.GetMessage(item);
+                        emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.TextBody.ToString()));
+                    }
 
-                client.Disconnect(true);
-                return emails;
+                    client.Disconnect(true);
+                    return emails;
+                }
+                else
+                {
+                    emails.Add(new Email("hellowpf@gmail.com", "Retrieved message", DateTime.Now.Date, "This is a test message from code"));
+                    return emails;
+                }
+                
             }
         }
     }
