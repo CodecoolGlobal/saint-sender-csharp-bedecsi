@@ -3,6 +3,7 @@ using SaintSender.Core.Models;
 using SaintSender.Core.Services;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -12,7 +13,14 @@ namespace SaintSender.DesktopUI.ViewModels
     /// </summary>
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        public List<Email> Emails { get; set; }
+        private List<Email> emails;
+
+        public List<Email> Emails
+        {
+            get { return emails; }
+            set { emails = value; NotifyPropertyChanged(); }
+        }
+
 
 
         /// <summary>
@@ -32,5 +40,9 @@ namespace SaintSender.DesktopUI.ViewModels
             Emails = new EmailService().RetrieveEmails(loggedInUser);
         }
 
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
