@@ -1,19 +1,9 @@
-﻿using System;
+﻿using SaintSender.Core.Models;
+using SaintSender.Core.Services;
+using System;
+using System.IO;
 using System.Net;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using SaintSender.Core;
-using SaintSender.Core.Models;
 
 namespace SaintSender.DesktopUI.Views
 {
@@ -22,84 +12,93 @@ namespace SaintSender.DesktopUI.Views
     /// </summary>
     public partial class LoginScreen : Window
     {
-        private Credentials UserOne = new Credentials("bedecsi2ndtw1@gmail.com", "IHateWPF");
-        private Credentials UserTwo = new Credentials("bedecsi2ndtw2@gmail.com", "IHateWPF");
-        private Credentials UserThree = new Credentials("bedecsi2ndtw3@gmail.com", "IHateWPF");
+        
         private MainWindow MainWindow;
+        private EmailService emailService;
+        private Credentials Credentials;
+        private Serializer serializer;
+
         public LoginScreen()
         {
             InitializeComponent();
             MainWindow = new MainWindow();
+            emailService = new EmailService();
+            Credentials = new Credentials();
+            serializer = new Serializer(Credentials);
         }
 
 
-
+        public void setCredential()
+        {
+            Credentials.EmailAddress = txtUsername.Text;
+            Credentials.Password = txtPassword.Password;
+            string[] NamePart = txtUsername.Text.Split('@');
+            Credentials.Name = NamePart[0];
+        }
 
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
-            if(Verification())
+            if (isNetwork())
             {
-                MainWindow.Show();
-                Close();
-            }
-        }
+                if (emailService.Authenticate(txtUsername.Text, txtPassword.Password))
+                {
 
-        private bool Verification()
-        {
+                    
+                    FileInfo[] fileInfos = serializer.GetXMLfiles();
+                    foreach (FileInfo file in fileInfos)
+                    {
+                        
+                        if (file.Name.Equals(txtUsername.Text+".xml"))
+                        {
+                            setCredential();
+                            MainWindow.Show();
+                            Close();
+                            return;
+                        }
+                    }
+                    
+                    setCredential();
+                    serializer.XMLsave();
+                    MainWindow.Show();
+                    Close();
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("Wrong Username Or Password!");
+                }
 
-            if (!UserNameVerification()) 
-            {
-                MessageBox.Show("Wrong Username Or Password!");
-                return false;
-            }
-            if (!PasswordVerification())
-            {
-                MessageBox.Show("Wrong Username Or Password!");
-                return false;
-            }
-            if (MatchVerification())
-            {
-                return true;        
             } else
             {
-                MessageBox.Show("Wrong Username Or Password!");
-                return false;
+               if(offlineVerification())
+                {
+                    setCredential();
+                    MainWindow.Show();
+                    Close();
+                } else
+                {
+                    MessageBox.Show("Wrong Username Or Password!");
+                }
             }
-
-
         }
 
-
-        private bool UserNameVerification()
+       private bool offlineVerification()
         {
-            if (UserOne.EmailAddress.Equals(txtUsername.Text) || UserTwo.EmailAddress.Equals(txtUsername.Text) || UserThree.EmailAddress.Equals(txtUsername.Text))
+            FileInfo[] fileInfos = serializer.GetXMLfiles();
+            foreach (FileInfo file in fileInfos)
             {
-                return true;
-            }
-            return false;
-        }
-
-        private bool PasswordVerification()
-        {
-            if(UserOne.Password.Equals(txtPassword.Password) || UserTwo.Password.Equals(txtPassword.Password) || UserThree.Password.Equals(txtPassword.Password))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private bool MatchVerification()
-        {
-            if((UserOne.EmailAddress.Equals(txtUsername.Text) && UserOne.Password.Equals(txtPassword.Password)) || (UserTwo.EmailAddress.Equals(txtUsername.Text) && UserTwo.Password.Equals(txtPassword.Password)) || (UserThree.EmailAddress.Equals(txtUsername.Text) && UserThree.Password.Equals(txtPassword.Password)))
-            {
-                return true;
+                if (file.Name.Equals(txtUsername.Text + ".xml"))
+                {
+                    Credentials LoadCredentials = serializer.ReadXML(file);
+                    return LoadCredentials.Password == txtPassword.Password;
+                }
             }
             return false;
         }
 
         private void NetCheck_Click(object sender, RoutedEventArgs e)
         {
-            if(CheckNetwork())
+            if(isNetwork())
             {
                 MessageBox.Show("You have internet connection.");
             } else
@@ -108,7 +107,7 @@ namespace SaintSender.DesktopUI.Views
             }
         }
 
-        private bool CheckNetwork()
+        private bool isNetwork()
         {
             WebRequest webRequest = WebRequest.Create("http://www.google.com");
             WebResponse webResponse;
