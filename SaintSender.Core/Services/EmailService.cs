@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using MailKit;
 using MailKit.Net.Imap;
-using MailKit.Net.Pop3;
 using MailKit.Net.Smtp;
 using MailKit.Search;
 using MailKit.Security;
 using MimeKit;
 using SaintSender.Core.Models;
+using System.Windows.Forms;
 
 namespace SaintSender.Core.Services
 {
@@ -76,7 +75,7 @@ namespace SaintSender.Core.Services
                     foreach (var item in items)
                     {
                         var message = client.Inbox.GetMessage(item);
-                        emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.TextBody.ToString()));
+                        emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.TextBody.ToString(), Convert.ToInt32(item)));
                     }
 
                     client.Disconnect(true);
@@ -84,7 +83,7 @@ namespace SaintSender.Core.Services
                 }
                 else
                 {
-                    emails.Add(new Email("hellowpf@gmail.com", "Retrieved message", DateTime.Now.Date, "This is a test message from code"));
+                    emails.Add(new Email("hellowpf@gmail.com", "Retrieved message", DateTime.Now.Date, "This is a test message from code", 0));
                     return emails;
                 }
                 

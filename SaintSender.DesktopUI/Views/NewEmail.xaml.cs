@@ -25,6 +25,7 @@ namespace SaintSender.DesktopUI.Views
     public partial class NewEmail : Window
     {
         public Credentials Credentials { get; set; }
+        public Email EmailToReply { get; set; }
 
         NewEmailViewModel _vm;
         public NewEmail(Credentials loggedInUser)
