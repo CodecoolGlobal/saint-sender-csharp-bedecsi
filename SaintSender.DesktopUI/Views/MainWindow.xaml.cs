@@ -9,7 +9,7 @@ namespace SaintSender.DesktopUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Serializer _serializer;
+        public Serializer _serializer { get; set; }
         private MainWindowViewModel _vm;
 
         public MainWindow()
@@ -31,6 +31,7 @@ namespace SaintSender.DesktopUI
         private void Delete_Credentials(object sender, RoutedEventArgs e)
         {
             _serializer.DeleteXMLfiles();
+            MessageBox.Show("Your Credentials have been removed!");
         }
     }
 

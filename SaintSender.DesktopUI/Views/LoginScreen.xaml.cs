@@ -53,6 +53,7 @@ namespace SaintSender.DesktopUI.Views
                         if (file.Name.Equals(txtUsername.Text+".xml"))
                         {
                             setCredential();
+                            MainWindow._serializer.credentials = Credentials;
                         // set MainWindow Credential
                             MainWindow.Show();
                             Close();

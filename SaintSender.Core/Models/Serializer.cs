@@ -10,7 +10,6 @@ namespace SaintSender.Core.Models
 {
     public class Serializer
     {
-
         public Credentials credentials { get; set; }
 
         public Serializer(Credentials Credentials)
@@ -52,7 +51,12 @@ namespace SaintSender.Core.Models
             FileInfo[] XMLfiles = GetXMLfiles();
             foreach (FileInfo file in XMLfiles)
             {
-                file.Delete();
+                if (file.Name.Equals(credentials.EmailAddress + ".xml"))
+                {
+                    file.Delete();
+                    
+                }
+                
             }
         }
     }
