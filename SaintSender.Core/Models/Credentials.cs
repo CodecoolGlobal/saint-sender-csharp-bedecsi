@@ -12,5 +12,11 @@
             Password = password;
             Name = name;
         }
+        public Credentials()
+        {
+
+        }
+
+
     }
 }

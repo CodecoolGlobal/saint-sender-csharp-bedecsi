@@ -6,6 +6,7 @@ using MailKit.Net.Imap;
 using MailKit.Net.Pop3;
 using MailKit.Net.Smtp;
 using MailKit.Search;
+using MailKit.Security;
 using MimeKit;
 using SaintSender.Core.Models;
 
@@ -13,22 +14,28 @@ namespace SaintSender.Core.Services
 {
     public class EmailService
     {
-        public bool Authenticate(Credentials credentials)
+        public bool Authenticate(string username, string password)
         {
             using (var client = new SmtpClient())
             {
+                client.CheckCertificateRevocation = false;
+                client.Connect("smtp.gmail.com", 587, SecureSocketOptions.Auto);
+                
                 try
                 {
-                    client.Connect("smtp.gmail.com", 587, false);
-                    client.Authenticate(credentials.EmailAddress, credentials.Password);
+                    client.Authenticate(username, password);
                     client.Disconnect(true);
                     return true;
+
                 }
                 catch (System.Exception)
                 {
+                    client.Disconnect(true);
                     return false;
                 }
+           
             }
+                      
         }
 
         public void Send(string to, Credentials from, string subject, string content)
