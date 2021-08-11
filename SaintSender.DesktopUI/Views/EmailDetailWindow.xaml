@@ -10,7 +10,7 @@
         <Label Content="{Binding Path=Subject}" HorizontalAlignment="Left" Height="35" Margin="150,10,0,0" VerticalAlignment="Top" Width="464"/>
         <Label Content="{Binding Path=Sender}" HorizontalAlignment="Left" Height="30" Margin="150,45,0,0" VerticalAlignment="Top" Width="154" RenderTransformOrigin="0.315,3.235"/>
         <TextBox HorizontalAlignment="Left" Height="408" Margin="150,89,0,0" VerticalAlignment="Top" Width="618" Text="{Binding Path=Body}"/>
-        <Button Content="Reply" HorizontalAlignment="Left" Height="23" Margin="27,133,0,0" VerticalAlignment="Top" Width="94"/>
+        <Button Content="Reply" HorizontalAlignment="Left" Height="23" Margin="27,133,0,0" VerticalAlignment="Top" Width="94" Click="ReplyButton_Click"/>
         <Button Content="Go Back" HorizontalAlignment="Left" Height="23" Margin="27,89,0,0" VerticalAlignment="Top" Width="94"/>
         <Label Content="{Binding Path=Date}" HorizontalAlignment="Left" Height="30" Margin="619,45,0,0" VerticalAlignment="Top" Width="149" FontSize="11"/>
 

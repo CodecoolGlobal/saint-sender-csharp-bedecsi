@@ -15,11 +15,13 @@ namespace SaintSender.DesktopUI
         public Serializer _serializer { get; set; }
         private MainWindowViewModel _vm;
         private EmailDetailWindow _emailDetailWindow;
+        public Credentials LoggedInUser { get; }
 
-        public MainWindow()
+        public MainWindow(Credentials loggedInUser)
         {
+            LoggedInUser = loggedInUser;
             // set DataContext to the ViewModel object
-            _vm = new MainWindowViewModel();
+            _vm = new MainWindowViewModel(loggedInUser);
             DataContext = _vm;
             _serializer = new Serializer();
             InitializeComponent();
@@ -42,7 +44,7 @@ namespace SaintSender.DesktopUI
         {
             Control control = (Control)sender;
             Email clickedItem =(Email)control.DataContext;
-            _emailDetailWindow = new EmailDetailWindow(clickedItem);
+            _emailDetailWindow = new EmailDetailWindow(LoggedInUser, clickedItem);
             _emailDetailWindow.Show();
         }
     }

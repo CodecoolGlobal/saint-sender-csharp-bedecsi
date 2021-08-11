@@ -23,7 +23,6 @@ namespace SaintSender.DesktopUI.Views
         public LoginScreen()
         {
             InitializeComponent();
-            MainWindow = new MainWindow();
             emailService = new EmailService();
             Credentials = new Credentials();
             serializer = new Serializer(Credentials);
@@ -53,8 +52,9 @@ namespace SaintSender.DesktopUI.Views
                         if (file.Name.Equals(txtUsername.Text+".xml"))
                         {
                             setCredential();
+                            // set MainWindow Credential
+                            MainWindow = new MainWindow(Credentials);
                             MainWindow._serializer.credentials = Credentials;
-                        // set MainWindow Credential
                             MainWindow.Show();
                             Close();
                             return;
@@ -68,6 +68,7 @@ namespace SaintSender.DesktopUI.Views
 
                     serializer.XMLsave();
                     // set MainWindow Credential
+                    MainWindow = new MainWindow(Credentials);
                     MainWindow.Show();
                     Close();
                     return;
@@ -83,6 +84,7 @@ namespace SaintSender.DesktopUI.Views
                 {
                     setCredential();
                     // set MainWindow Credential
+                    MainWindow = new MainWindow(Credentials);
                     MainWindow.Show();
                     Close();
                 } else

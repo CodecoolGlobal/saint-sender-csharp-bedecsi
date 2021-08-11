@@ -21,11 +21,19 @@ namespace SaintSender.DesktopUI.Views
     public partial class EmailDetailWindow : Window
     {
         private EmailDetailWindowViewModel _emailDetailWindowViewModel;
-        public EmailDetailWindow(Email selected)
+        private Credentials _loggedInUser;
+        public EmailDetailWindow(Credentials loggedInUser, Email selected)
         {
             InitializeComponent();
+            _loggedInUser = loggedInUser;
             _emailDetailWindowViewModel = new EmailDetailWindowViewModel(selected);
             DataContext = _emailDetailWindowViewModel.SelectedEmail;
+        }
+
+        private void ReplyButton_Click(object sender, RoutedEventArgs e)
+        {
+            NewEmail newEmailWindow = new NewEmail(_loggedInUser);
+            newEmailWindow.Show();
         }
     }
 }

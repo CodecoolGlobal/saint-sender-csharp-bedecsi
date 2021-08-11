@@ -13,8 +13,6 @@ namespace SaintSender.DesktopUI.ViewModels
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         public List<Email> Emails { get; set; }
-        private Email _selectedEmail;
-
 
 
         /// <summary>
@@ -23,20 +21,15 @@ namespace SaintSender.DesktopUI.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(Credentials loggedInUser)
         {
-            CollectEmails(new Credentials("bedecsi2ndtw1@gmail.com", "IHateWPF", ""));
+            CollectEmails(loggedInUser);
            
         }
 
         public void CollectEmails(Credentials loggedInUser)
         {
             Emails = new EmailService().RetrieveEmails(loggedInUser);
-        }
-
-        public void ShowEmailDetails(Email selectedEmail)
-        {
-
         }
 
     }
