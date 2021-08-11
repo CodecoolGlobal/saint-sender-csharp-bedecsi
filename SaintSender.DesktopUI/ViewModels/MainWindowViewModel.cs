@@ -14,6 +14,7 @@ namespace SaintSender.DesktopUI.ViewModels
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private List<Email> emails;
+        public EmailService EmailService { get; set; }
 
         public List<Email> Emails
         {
@@ -32,12 +33,23 @@ namespace SaintSender.DesktopUI.ViewModels
         public MainWindowViewModel()
         {
             CollectEmails(new Credentials("bedecsi2ndtw1@gmail.com", "IHateWPF", ""));
-           
+            EmailService = new EmailService();
         }
 
         public void CollectEmails(Credentials loggedInUser)
         {
             Emails = new EmailService().RetrieveEmails(loggedInUser);
+        }
+
+        public void NextPage()
+        {
+            EmailService.PageNumber += 1;
+        }
+
+
+        public void PrevPage()
+        {
+            EmailService.PageNumber -= 1;
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
