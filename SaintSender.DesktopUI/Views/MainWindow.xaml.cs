@@ -1,6 +1,8 @@
 ﻿using SaintSender.Core.Models;
 using SaintSender.DesktopUI.ViewModels;
+using SaintSender.DesktopUI.Views;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace SaintSender.DesktopUI
@@ -12,6 +14,7 @@ namespace SaintSender.DesktopUI
     {
         public Serializer _serializer { get; set; }
         private MainWindowViewModel _vm;
+        private EmailDetailWindow _emailDetailWindow;
 
         public MainWindow()
         {
@@ -37,8 +40,10 @@ namespace SaintSender.DesktopUI
 
         void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Double click!");
-
+            Control control = (Control)sender;
+            Email clickedItem =(Email)control.DataContext;
+            _emailDetailWindow = new EmailDetailWindow(clickedItem);
+            _emailDetailWindow.Show();
         }
     }
 

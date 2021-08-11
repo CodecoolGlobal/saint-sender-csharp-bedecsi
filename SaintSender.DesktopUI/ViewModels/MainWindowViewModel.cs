@@ -13,6 +13,8 @@ namespace SaintSender.DesktopUI.ViewModels
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         public List<Email> Emails { get; set; }
+        private Email _selectedEmail;
+
 
 
         /// <summary>
@@ -30,6 +32,11 @@ namespace SaintSender.DesktopUI.ViewModels
         public void CollectEmails(Credentials loggedInUser)
         {
             Emails = new EmailService().RetrieveEmails(loggedInUser);
+        }
+
+        public void ShowEmailDetails(Email selectedEmail)
+        {
+
         }
 
     }
