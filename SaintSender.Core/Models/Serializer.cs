@@ -18,6 +18,11 @@ namespace SaintSender.Core.Models
             credentials = Credentials;
         }
 
+        public Serializer()
+        {
+
+        }
+
         public void XMLsave()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Credentials));
@@ -40,6 +45,15 @@ namespace SaintSender.Core.Models
             object obj = deseliarizer.Deserialize(textReader);
             Credentials xmlObject = (Credentials)obj;
             return xmlObject;
+        }
+
+        public void DeleteXMLfiles()
+        {
+            FileInfo[] XMLfiles = GetXMLfiles();
+            foreach (FileInfo file in XMLfiles)
+            {
+                file.Delete();
+            }
         }
     }
 }
