@@ -17,6 +17,9 @@ namespace SaintSender.DesktopUI.Views
         private EmailService emailService;
         private Credentials Credentials;
         private Serializer serializer;
+        private NewEmail NewEmail;
+
+
 
         public LoginScreen()
         {
@@ -51,6 +54,7 @@ namespace SaintSender.DesktopUI.Views
                         if (file.Name.Equals(txtUsername.Text+".xml"))
                         {
                             setCredential();
+                        // set MainWindow Credential
                             MainWindow.Show();
                             Close();
                             return;
@@ -59,6 +63,7 @@ namespace SaintSender.DesktopUI.Views
                     
                     setCredential();
                     serializer.XMLsave();
+                    // set MainWindow Credential
                     MainWindow.Show();
                     Close();
                     return;
@@ -73,6 +78,7 @@ namespace SaintSender.DesktopUI.Views
                if(offlineVerification())
                 {
                     setCredential();
+                    // set MainWindow Credential
                     MainWindow.Show();
                     Close();
                 } else
