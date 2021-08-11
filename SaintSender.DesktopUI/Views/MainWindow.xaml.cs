@@ -1,4 +1,5 @@
 ﻿using SaintSender.DesktopUI.ViewModels;
+using SaintSender.DesktopUI.Views;
 using System.Windows;
 
 namespace SaintSender.DesktopUI
@@ -19,6 +20,10 @@ namespace SaintSender.DesktopUI
             EmailsListView.ItemsSource = _vm.Emails;
         }
 
-
+        private void NewEmailButton_Click(object sender, RoutedEventArgs e)
+        {
+            NewEmail newEmail = new NewEmail();
+            newEmail.Show();
+        }
     }
 }
