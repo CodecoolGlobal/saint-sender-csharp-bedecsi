@@ -17,7 +17,7 @@
             <Label Content="Subject:" Target="{Binding ElementName=subject}"/>
             <TextBox x:Name="subject" Width="100" HorizontalAlignment="Left"/>
             <Label Content="Body:" Target="{Binding ElementName=body}"/>
-            <TextBlock x:Name="body" HorizontalAlignment="Left" Height="250" Width="780" Background="White"/>
+            <TextBox x:Name="body" HorizontalAlignment="Left" Height="250" Width="780" Background="White" AcceptsReturn="True" AcceptsTab="True"/>
             <StackPanel Orientation="Horizontal">
                 <Button x:Name="send" Content="Send" Width="50" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="SendBtn_Click"/>
                 <Button x:Name="cancel" Content="Cancel" Width="50" HorizontalAlignment="Left" Click="CancelBtn_Click"/>
