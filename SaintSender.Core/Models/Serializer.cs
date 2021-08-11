@@ -11,7 +11,7 @@ namespace SaintSender.Core.Models
     public class Serializer
     {
 
-        private Credentials credentials;
+        public Credentials credentials { get; set; }
 
         public Serializer(Credentials Credentials)
         {
