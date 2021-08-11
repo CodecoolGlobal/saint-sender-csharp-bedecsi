@@ -25,8 +25,7 @@ namespace SaintSender.DesktopUI.Views
         {
             InitializeComponent();
             _emailDetailWindowViewModel = new EmailDetailWindowViewModel(selected);
-            DataContext = _emailDetailWindowViewModel;
-            EmailDetails.Text = _emailDetailWindowViewModel.SelectedEmail.Body;
+            DataContext = _emailDetailWindowViewModel.SelectedEmail;
         }
     }
 }
