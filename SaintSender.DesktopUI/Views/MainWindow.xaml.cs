@@ -85,6 +85,11 @@ namespace SaintSender.DesktopUI
             MessageBox.Show("Your Credentials have been removed!");
         }
 
+        private void Search_Submit(object sender, RoutedEventArgs e)
+        {
+           EmailsListView.ItemsSource = _vm.FilterEmailsBySearchTerms(SerchTextBox.Text);
+        }
+       
         private void BackupButton_Click(object sender, RoutedEventArgs e)
         {
             _vm.CollectAllEmails(LoggedInUser);

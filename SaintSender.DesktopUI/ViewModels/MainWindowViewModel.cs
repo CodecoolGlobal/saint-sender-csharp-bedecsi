@@ -21,8 +21,6 @@ namespace SaintSender.DesktopUI.ViewModels
             set { emails = value; NotifyPropertyChanged(); }
         }
 
-
-
         /// <summary>
         /// Whenever a property value changed the subscribed event handler is called.
         /// </summary>
@@ -64,5 +62,20 @@ namespace SaintSender.DesktopUI.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public List<Email> FilterEmailsBySearchTerms(string searchTerms)
+        {
+            List<Email> searchEmails = new List<Email>();
+            foreach (Email email in emails)
+            {
+                if(email.Body.Contains(searchTerms) || email.Subject.Contains(searchTerms) || email.Sender.Contains(searchTerms))
+                {
+                    searchEmails.Add(email);
+                }
+            }
+            return searchEmails;
+
+        }
+
     }
 }
