@@ -8,14 +8,16 @@ namespace SaintSender.DesktopUI.Views
     /// Interaction logic for NewEmail.xaml
     /// </summary>
     /// 
-
+    
     public partial class NewEmail : Window
     {
         public Credentials Credentials { get; set; }
+        public Email EmailToReply { get; set; }
 
         NewEmailViewModel _vm;
-        public NewEmail()
+        public NewEmail(Credentials loggedInUser)
         {
+            Credentials = loggedInUser;
             _vm = new NewEmailViewModel();
             DataContext = _vm;
             InitializeComponent();

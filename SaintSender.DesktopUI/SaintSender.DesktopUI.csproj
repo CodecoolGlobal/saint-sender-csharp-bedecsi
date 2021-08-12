@@ -73,9 +73,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\NewEmailViewModel.cs" />
+    <Compile Include="Views\EmailDetailWindow.xaml.cs">
+      <DependentUpon>EmailDetailWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmailDetailWindowViewModel.cs" />
     <Compile Include="Views\NewEmail.xaml.cs">
       <DependentUpon>NewEmail.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\EmailDetailWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LoginScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
