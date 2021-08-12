@@ -15,7 +15,7 @@ namespace SaintSender.DesktopUI
     public partial class MainWindow : Window
     {
         private readonly MainWindowViewModel _vm;
-        private readonly NewEmail NewEmail;
+        private NewEmail NewEmail;
         private EmailDetailWindow _emailDetailWindow;
         public Serializer Serializer { get; set; }
         public Credentials LoggedInUser { get; }
@@ -53,6 +53,7 @@ namespace SaintSender.DesktopUI
 
         private void NewEmailButton_Click(object sender, RoutedEventArgs e)
         {
+            NewEmail = new NewEmail(LoggedInUser);
             NewEmail.Show();
         }
 
