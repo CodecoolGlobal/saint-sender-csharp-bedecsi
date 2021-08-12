@@ -1,9 +1,12 @@
 ﻿using SaintSender.Core.Interfaces;
 using SaintSender.Core.Models;
 using SaintSender.Core.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -39,6 +42,11 @@ namespace SaintSender.DesktopUI.ViewModels
         public void CollectEmails(Credentials loggedInUser)
         {
             Emails = new EmailService().RetrieveEmails(loggedInUser);
+        }
+
+        public void CollectAllEmails(Credentials loggedInUser)
+        {
+            Emails = new EmailService().RetrieveAllEmails(loggedInUser);
         }
 
         public void NextPage()
