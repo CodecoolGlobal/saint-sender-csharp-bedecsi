@@ -48,7 +48,6 @@ namespace SaintSender.DesktopUI.ViewModels
             EmailService.PageNumber += 1;
         }
 
-
         public void PrevPage()
         {
             if (EmailService.PageNumber > 1)
