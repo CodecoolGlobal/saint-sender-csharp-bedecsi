@@ -95,5 +95,35 @@ namespace SaintSender.Core.Services
                 
             }
         }
+
+        public List<Email> RetrieveAllEmails(Credentials email)
+        {
+            List<Email> emails = new List<Email>();
+            using (var client = new ImapClient())
+            {
+                client.Connect("imap.gmail.com", 993, true);
+
+                client.Authenticate(email.EmailAddress, email.Password);
+                client.Inbox.Open(FolderAccess.ReadOnly);
+
+                var items = client.Inbox.Search(SearchQuery.All);
+                if (client.IsConnected && client.IsAuthenticated)
+                {
+                    foreach (var item in items)
+                    {
+                        var message = client.Inbox.GetMessage(item);
+                        emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.TextBody.ToString()));
+                    }
+                    client.Disconnect(true);
+                    return emails;
+                }
+                else
+                {
+                    emails.Add(new Email("hellowpf@gmail.com", "Retrieved message", DateTime.Now.Date, "This is a test message from code"));
+                    return emails;
+                }
+
+            }
+        }
     }
 }
