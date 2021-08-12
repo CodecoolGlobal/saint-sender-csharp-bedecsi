@@ -1,8 +1,8 @@
-﻿using SaintSender.Core.Interfaces;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using SaintSender.Core.Models;
 using SaintSender.Core.Services;
-using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -12,7 +12,15 @@ namespace SaintSender.DesktopUI.ViewModels
     /// </summary>
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        public List<Email> Emails { get; set; }
+        private List<Email> emails;
+        public EmailService EmailService { get; set; }
+
+        public List<Email> Emails
+        {
+            get { return emails; }
+            set { emails = value; NotifyPropertyChanged(); }
+        }
+
 
 
         /// <summary>
@@ -23,14 +31,38 @@ namespace SaintSender.DesktopUI.ViewModels
 
         public MainWindowViewModel(Credentials loggedInUser)
         {
+            EmailService = new EmailService();
             CollectEmails(loggedInUser);
-           
         }
 
         public void CollectEmails(Credentials loggedInUser)
         {
-            Emails = new EmailService().RetrieveEmails(loggedInUser);
+            Emails = EmailService.RetrieveEmails(loggedInUser);
         }
 
+        public void CollectAllEmails(Credentials loggedInUser)
+        {
+            Emails = EmailService.RetrieveAllEmails(loggedInUser);
+        }
+
+        public void NextPage()
+        {
+            EmailService.PageNumber += 1;
+        }
+
+
+        public void PrevPage()
+        {
+            if (EmailService.PageNumber >= 1)
+            {
+                return;
+            }
+            EmailService.PageNumber -= 1;
+        }
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

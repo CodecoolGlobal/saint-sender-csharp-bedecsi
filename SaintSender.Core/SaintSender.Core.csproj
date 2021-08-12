@@ -72,7 +72,7 @@
     <Compile Include="Interfaces\IBackupable.cs" />
     <Compile Include="Models\Credentials.cs" />
     <Compile Include="Models\Email.cs" />
-    <Compile Include="Models\Serializer.cs" />
+    <Compile Include="Services\Serializer.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\GreetService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

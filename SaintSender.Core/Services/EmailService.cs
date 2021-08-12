@@ -13,13 +13,18 @@ namespace SaintSender.Core.Services
 {
     public class EmailService
     {
+        public const int MAX_EMAILS_ON_PAGE = 3;
+
+        public static int PageNumber { get; set; } = 1;
+        public static int CurrentIndex { get; set; } = 0;
+
         public bool Authenticate(string username, string password)
         {
             using (var client = new SmtpClient())
             {
                 client.CheckCertificateRevocation = false;
                 client.Connect("smtp.gmail.com", 587, SecureSocketOptions.Auto);
-                
+
                 try
                 {
                     client.Authenticate(username, password);
@@ -27,14 +32,14 @@ namespace SaintSender.Core.Services
                     return true;
 
                 }
-                catch (System.Exception)
+                catch (Exception)
                 {
                     client.Disconnect(true);
                     return false;
                 }
-           
+
             }
-                      
+
         }
 
         public void Send(string to, Credentials from, string subject, string content)
@@ -68,25 +73,55 @@ namespace SaintSender.Core.Services
                 client.Inbox.Open(FolderAccess.ReadOnly);
 
                 var items = client.Inbox.Search(SearchQuery.All);
-                
+
                 // else is needed for testing purposes
                 if (client.IsConnected && client.IsAuthenticated)
                 {
-                    foreach (var item in items)
+                    CurrentIndex = PageNumber * MAX_EMAILS_ON_PAGE - MAX_EMAILS_ON_PAGE;
+                    for (int i = CurrentIndex; i < PageNumber * MAX_EMAILS_ON_PAGE; i++)
                     {
-                        var message = client.Inbox.GetMessage(item);
-                        emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.TextBody.ToString(), Convert.ToInt32(item)));
+                        var message = client.Inbox.GetMessage(i);
+                        emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.TextBody.ToString()));
                     }
-
                     client.Disconnect(true);
                     return emails;
                 }
                 else
                 {
-                    emails.Add(new Email("hellowpf@gmail.com", "Retrieved message", DateTime.Now.Date, "This is a test message from code", 0));
+                    emails.Add(new Email("hellowpf@gmail.com", "Retrieved message", DateTime.Now.Date, "This is a test message from code"));
                     return emails;
                 }
-                
+
+            }
+        }
+
+        public List<Email> RetrieveAllEmails(Credentials email)
+        {
+            List<Email> emails = new List<Email>();
+            using (var client = new ImapClient())
+            {
+                client.Connect("imap.gmail.com", 993, true);
+
+                client.Authenticate(email.EmailAddress, email.Password);
+                client.Inbox.Open(FolderAccess.ReadOnly);
+
+                var items = client.Inbox.Search(SearchQuery.All);
+                if (client.IsConnected && client.IsAuthenticated)
+                {
+                    foreach (var item in items)
+                    {
+                        var message = client.Inbox.GetMessage(item);
+                        emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.TextBody.ToString()));
+                    }
+                    client.Disconnect(true);
+                    return emails;
+                }
+                else
+                {
+                    emails.Add(new Email("hellowpf@gmail.com", "Retrieved message", DateTime.Now.Date, "This is a test message from code"));
+                    return emails;
+                }
+
             }
         }
     }
