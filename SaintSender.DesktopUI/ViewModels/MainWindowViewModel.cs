@@ -1,12 +1,8 @@
-﻿using SaintSender.Core.Interfaces;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using SaintSender.Core.Models;
 using SaintSender.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Runtime.CompilerServices;
-using System.Windows;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -35,18 +31,18 @@ namespace SaintSender.DesktopUI.ViewModels
 
         public MainWindowViewModel()
         {
-            CollectEmails(new Credentials("bedecsi2ndtw1@gmail.com", "IHateWPF", ""));
             EmailService = new EmailService();
+            CollectEmails(new Credentials("bedecsi2ndtw1@gmail.com", "IHateWPF", ""));
         }
 
         public void CollectEmails(Credentials loggedInUser)
         {
-            Emails = new EmailService().RetrieveEmails(loggedInUser);
+            Emails = EmailService.RetrieveEmails(loggedInUser);
         }
 
         public void CollectAllEmails(Credentials loggedInUser)
         {
-            Emails = new EmailService().RetrieveAllEmails(loggedInUser);
+            Emails = EmailService.RetrieveAllEmails(loggedInUser);
         }
 
         public void NextPage()
@@ -57,6 +53,10 @@ namespace SaintSender.DesktopUI.ViewModels
 
         public void PrevPage()
         {
+            if (EmailService.PageNumber >= 1)
+            {
+                return;
+            }
             EmailService.PageNumber -= 1;
         }
 

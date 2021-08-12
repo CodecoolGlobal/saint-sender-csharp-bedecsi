@@ -12,11 +12,11 @@ namespace SaintSender.DesktopUI.Views
     /// </summary>
     public partial class LoginScreen : Window
     {
-        
-        private MainWindow MainWindow;
-        private EmailService emailService;
-        private Credentials Credentials;
-        private Serializer serializer;
+
+        private readonly MainWindow MainWindow;
+        private readonly EmailService EmailService;
+        private readonly Credentials Credentials;
+        private readonly Serializer Serializer;
 
 
 
@@ -24,53 +24,52 @@ namespace SaintSender.DesktopUI.Views
         {
             InitializeComponent();
             MainWindow = new MainWindow();
-            emailService = new EmailService();
+            EmailService = new EmailService();
             Credentials = new Credentials();
-            serializer = new Serializer(Credentials);
+            Serializer = new Serializer(Credentials);
         }
 
 
-        public void setCredential()
+        public void SetCredential()
         {
             Credentials.EmailAddress = txtUsername.Text;
             Credentials.Password = txtPassword.Password;
-            string[] NamePart = txtUsername.Text.Split('@');
-            Credentials.Name = NamePart[0];
+            Credentials.Name = txtUsername.Text.Split('@')[0];
         }
 
-        private void btnSubmit_Click(object sender, RoutedEventArgs e)
+        private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            if (isNetwork())
+            if (IsConnectedToNetwork())
             {
-                if (emailService.Authenticate(txtUsername.Text, txtPassword.Password))
+                if (EmailService.Authenticate(txtUsername.Text, txtPassword.Password))
                 {
 
-                    
-                    FileInfo[] fileInfos = serializer.GetXMLfiles();
+
+                    FileInfo[] fileInfos = Serializer.GetXMLfiles();
                     foreach (FileInfo file in fileInfos)
                     {
-                        
-                        if (file.Name.Equals(txtUsername.Text+".xml"))
+
+                        if (file.Name.Equals(txtUsername.Text + ".xml"))
                         {
-                            setCredential();
-                            MainWindow._serializer.credentials = Credentials;
+                            SetCredential();
+                            MainWindow.Serializer.credentials = Credentials;
                             MainWindow.Credentials = Credentials;
-                        
+
                             MainWindow.Show();
                             Close();
                             return;
                         }
                     }
-                    
-                    setCredential();
+
+                    SetCredential();
 
                     var hashedPass = BCrypt.Net.BCrypt.HashPassword(txtPassword.Password);
-                    serializer.credentials.Password = hashedPass;
+                    Serializer.credentials.Password = hashedPass;
 
-                    serializer.XMLsave();
-                    MainWindow._serializer.credentials = Credentials;
+                    Serializer.XMLsave();
+                    MainWindow.Serializer.credentials = Credentials;
                     MainWindow.Credentials = Credentials;
-                    
+
                     MainWindow.Show();
                     Close();
                     return;
@@ -80,30 +79,32 @@ namespace SaintSender.DesktopUI.Views
                     MessageBox.Show("Wrong Username Or Password!");
                 }
 
-            } else
+            }
+            else
             {
-               if(offlineVerification())
+                if (OfflineVerification())
                 {
-                    setCredential();
-                    MainWindow._serializer.credentials = Credentials;
+                    SetCredential();
+                    MainWindow.Serializer.credentials = Credentials;
                     MainWindow.Credentials = Credentials;
                     MainWindow.Show();
                     Close();
-                } else
+                }
+                else
                 {
                     MessageBox.Show("Wrong Username Or Password!");
                 }
             }
         }
 
-       private bool offlineVerification()
+        private bool OfflineVerification()
         {
-            FileInfo[] fileInfos = serializer.GetXMLfiles();
+            FileInfo[] fileInfos = Serializer.GetXMLfiles();
             foreach (FileInfo file in fileInfos)
             {
                 if (file.Name.Equals(txtUsername.Text + ".xml"))
                 {
-                    Credentials LoadCredentials = serializer.ReadXML(file);
+                    Credentials LoadCredentials = Serializer.ReadXML(file);
                     return BCrypt.Net.BCrypt.Verify(txtPassword.Password, LoadCredentials.Password);
                 }
             }
@@ -112,16 +113,17 @@ namespace SaintSender.DesktopUI.Views
 
         private void NetCheck_Click(object sender, RoutedEventArgs e)
         {
-            if(isNetwork())
+            if (IsConnectedToNetwork())
             {
                 MessageBox.Show("You have internet connection.");
-            } else
+            }
+            else
             {
                 MessageBox.Show("Don't haven internet connection.");
             }
         }
 
-        private bool isNetwork()
+        private bool IsConnectedToNetwork()
         {
             WebRequest webRequest = WebRequest.Create("http://www.google.com");
             WebResponse webResponse;
@@ -132,9 +134,8 @@ namespace SaintSender.DesktopUI.Views
                 webRequest = null;
                 return true;
             }
-            catch(Exception)
+            catch (Exception)
             {
-                webRequest = null;
                 return false;
             }
         }

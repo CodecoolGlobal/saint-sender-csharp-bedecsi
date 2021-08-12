@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace SaintSender.Core.Models
@@ -11,6 +8,7 @@ namespace SaintSender.Core.Models
     public class Serializer
     {
         public Credentials credentials { get; set; }
+        private readonly string backupPath = Environment.CurrentDirectory + "\\Backup\\backup.xml";
 
         public Serializer(Credentials Credentials)
         {
@@ -25,7 +23,7 @@ namespace SaintSender.Core.Models
         public void XMLsave()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Credentials));
-            using (TextWriter textWriter = new StreamWriter(Environment.CurrentDirectory + "\\" + credentials.EmailAddress +".xml"))
+            using (TextWriter textWriter = new StreamWriter(Environment.CurrentDirectory + "\\" + credentials.EmailAddress + ".xml"))
             {
                 serializer.Serialize(textWriter, credentials);
             }
@@ -35,7 +33,7 @@ namespace SaintSender.Core.Models
         {
             Directory.CreateDirectory(Environment.CurrentDirectory + "\\Backup\\");
             XmlSerializer serializer = new XmlSerializer(typeof(List<Email>), new XmlRootAttribute("Emails"));
-            using (TextWriter textWriter = new StreamWriter(Environment.CurrentDirectory + "\\Backup\\backup.xml"))
+            using (TextWriter textWriter = new StreamWriter(backupPath))
             {
                 serializer.Serialize(textWriter, emails);
             }
@@ -47,7 +45,7 @@ namespace SaintSender.Core.Models
             root.ElementName = "Emails";
             root.IsNullable = true;
             XmlSerializer deserializer = new XmlSerializer(typeof(List<Email>), root);
-            TextReader textReader = new StreamReader(Environment.CurrentDirectory + "\\Backup\\backup.xml");
+            TextReader textReader = new StreamReader(backupPath);
             object obj = deserializer.Deserialize(textReader);
             List<Email> xmlObject = (List<Email>)obj;
             return xmlObject;
@@ -77,9 +75,9 @@ namespace SaintSender.Core.Models
                 if (file.Name.Equals(credentials.EmailAddress + ".xml"))
                 {
                     file.Delete();
-                    
+
                 }
-                
+
             }
         }
     }
