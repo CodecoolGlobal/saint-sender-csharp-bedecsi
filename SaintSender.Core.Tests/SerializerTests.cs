@@ -26,7 +26,7 @@ namespace SaintSender.Core.Tests
             testBackup = new List<Email>() { new Email("Adam Sender", "Test subject", DateTime.Now, "This is a test body.") };
         }
 
-        [Test, Order(1)]
+        [Test]
         public void XMLsave_CreatesXMLfile_IsFileCreated()
         {
             serializer.XMLsave();

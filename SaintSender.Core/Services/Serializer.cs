@@ -45,10 +45,12 @@ namespace SaintSender.Core.Models
             root.ElementName = "Emails";
             root.IsNullable = true;
             XmlSerializer deserializer = new XmlSerializer(typeof(List<Email>), root);
-            TextReader textReader = new StreamReader(backupPath);
-            object obj = deserializer.Deserialize(textReader);
-            List<Email> xmlObject = (List<Email>)obj;
-            return xmlObject;
+            using (TextReader textReader = new StreamReader(backupPath))
+            {
+                object obj = deserializer.Deserialize(textReader);
+                List<Email> xmlObject = (List<Email>)obj;
+                return xmlObject;
+            }
         }
 
         public FileInfo[] GetXMLfiles()
@@ -61,10 +63,12 @@ namespace SaintSender.Core.Models
         public Credentials ReadXML(FileInfo file)
         {
             XmlSerializer deseliarizer = new XmlSerializer(typeof(Credentials));
-            TextReader textReader = new StreamReader(file.FullName);
-            object obj = deseliarizer.Deserialize(textReader);
-            Credentials xmlObject = (Credentials)obj;
-            return xmlObject;
+            using (TextReader textReader = new StreamReader(file.FullName))
+            {
+                object obj = deseliarizer.Deserialize(textReader);
+                Credentials xmlObject = (Credentials)obj;
+                return xmlObject;
+            }
         }
 
         public void DeleteXMLfiles()
