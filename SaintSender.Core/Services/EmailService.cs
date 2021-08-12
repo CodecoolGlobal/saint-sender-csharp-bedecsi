@@ -44,6 +44,11 @@ namespace SaintSender.Core.Services
 
         public void Send(string to, Credentials from, string subject, string content)
         {
+            if (content == "" || subject == "" || to == "")
+            {
+                MessageBox.Show("Please fill all fields!");
+                return;
+            }
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(from.Name, from.EmailAddress));
             message.To.Add(new MailboxAddress("", to));
