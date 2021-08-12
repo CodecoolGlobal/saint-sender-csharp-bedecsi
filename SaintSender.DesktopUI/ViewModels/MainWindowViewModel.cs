@@ -3,6 +3,7 @@ using SaintSender.Core.Models;
 using SaintSender.Core.Services;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -12,7 +13,15 @@ namespace SaintSender.DesktopUI.ViewModels
     /// </summary>
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        public List<Email> Emails { get; set; }
+        private List<Email> emails;
+        public EmailService EmailService { get; set; }
+
+        public List<Email> Emails
+        {
+            get { return emails; }
+            set { emails = value; NotifyPropertyChanged(); }
+        }
+
 
 
         /// <summary>
@@ -24,7 +33,7 @@ namespace SaintSender.DesktopUI.ViewModels
         public MainWindowViewModel()
         {
             CollectEmails(new Credentials("bedecsi2ndtw1@gmail.com", "IHateWPF", ""));
-           
+            EmailService = new EmailService();
         }
 
         public void CollectEmails(Credentials loggedInUser)
@@ -32,5 +41,20 @@ namespace SaintSender.DesktopUI.ViewModels
             Emails = new EmailService().RetrieveEmails(loggedInUser);
         }
 
+        public void NextPage()
+        {
+            EmailService.PageNumber += 1;
+        }
+
+
+        public void PrevPage()
+        {
+            EmailService.PageNumber -= 1;
+        }
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

@@ -14,6 +14,11 @@ namespace SaintSender.Core.Services
 {
     public class EmailService
     {
+        public const int MAX_EMAILS_ON_PAGE = 3;
+
+        public static int PageNumber { get; set; } = 1;
+        public static int CurrentIndex { get; set; } = 0;
+
         public bool Authenticate(string username, string password)
         {
             using (var client = new SmtpClient())
@@ -28,7 +33,7 @@ namespace SaintSender.Core.Services
                     return true;
 
                 }
-                catch (System.Exception)
+                catch (Exception)
                 {
                     client.Disconnect(true);
                     return false;
@@ -73,12 +78,12 @@ namespace SaintSender.Core.Services
                 // else is needed for testing purposes
                 if (client.IsConnected && client.IsAuthenticated)
                 {
-                    foreach (var item in items)
+                    CurrentIndex = PageNumber * MAX_EMAILS_ON_PAGE - MAX_EMAILS_ON_PAGE;
+                    for (int i = CurrentIndex; i < PageNumber * MAX_EMAILS_ON_PAGE; i++)
                     {
-                        var message = client.Inbox.GetMessage(item);
+                        var message = client.Inbox.GetMessage(i);
                         emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.TextBody.ToString()));
                     }
-
                     client.Disconnect(true);
                     return emails;
                 }
