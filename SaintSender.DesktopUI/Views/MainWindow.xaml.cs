@@ -66,6 +66,12 @@ namespace SaintSender.DesktopUI
             _serializer.DeleteXMLfiles();
             MessageBox.Show("Your Credentials have been removed!");
         }
+
+        private void Search_Submit(object sender, RoutedEventArgs e)
+        {
+           EmailsListView.ItemsSource = _vm.FilterEmailsBySearchTerms(SerchTextBox.Text);
+        }
+       
     }
   
 }
