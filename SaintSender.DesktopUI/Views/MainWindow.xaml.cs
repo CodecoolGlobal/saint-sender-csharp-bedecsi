@@ -1,9 +1,9 @@
-﻿using SaintSender.Core.Models;
-using SaintSender.Core.Services;
+﻿using System;
+using System.IO;
+using System.Windows;
+using SaintSender.Core.Models;
 using SaintSender.DesktopUI.ViewModels;
 using SaintSender.DesktopUI.Views;
-using SaintSender.DesktopUI.ViewModels;
-using System.Windows;
 
 namespace SaintSender.DesktopUI
 {
@@ -26,7 +26,25 @@ namespace SaintSender.DesktopUI
             DataContext = _vm;
             _serializer = new Serializer();
             InitializeComponent();
-            EmailsListView.ItemsSource = _vm.Emails;
+            if (File.Exists(Environment.CurrentDirectory + "\\Backup\\backup.xml"))
+            {
+                var boxButton = MessageBoxButton.YesNo;
+                var boxText = "Backup found. Do you want to load emails from backup?";
+                var boxCaption = "Load Backup";
+                MessageBoxResult result = MessageBox.Show(boxText, boxCaption, boxButton);
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        EmailsListView.ItemsSource = _serializer.ReadXMLbackup();
+                        break;
+                    case MessageBoxResult.No:
+                        EmailsListView.ItemsSource = _vm.Emails;
+                        break;
+                }
+            } else
+            {
+                EmailsListView.ItemsSource = _vm.Emails;
+            }
             NewEmail = new NewEmail();
         }
 
@@ -66,10 +84,12 @@ namespace SaintSender.DesktopUI
             _serializer.DeleteXMLfiles();
             MessageBox.Show("Your Credentials have been removed!");
         }
+
+        private void BackupButton_Click(object sender, RoutedEventArgs e)
+        {
+            _vm.CollectAllEmails(new Credentials("bedecsi2ndtw1@gmail.com", "IHateWPF", ""));
+            _serializer.XMLbackup(_vm.Emails);
+            MessageBox.Show("Backup created");
+        }
     }
-  
 }
-
-
-        
-

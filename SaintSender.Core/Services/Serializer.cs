@@ -30,6 +30,29 @@ namespace SaintSender.Core.Models
                 serializer.Serialize(textWriter, credentials);
             }
         }
+
+        public void XMLbackup(List<Email> emails)
+        {
+            Directory.CreateDirectory(Environment.CurrentDirectory + "\\Backup\\");
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Email>), new XmlRootAttribute("Emails"));
+            using (TextWriter textWriter = new StreamWriter(Environment.CurrentDirectory + "\\Backup\\backup.xml"))
+            {
+                serializer.Serialize(textWriter, emails);
+            }
+        }
+
+        public List<Email> ReadXMLbackup()
+        {
+            var root = new XmlRootAttribute();
+            root.ElementName = "Emails";
+            root.IsNullable = true;
+            XmlSerializer deserializer = new XmlSerializer(typeof(List<Email>), root);
+            TextReader textReader = new StreamReader(Environment.CurrentDirectory + "\\Backup\\backup.xml");
+            object obj = deserializer.Deserialize(textReader);
+            List<Email> xmlObject = (List<Email>)obj;
+            return xmlObject;
+        }
+
         public FileInfo[] GetXMLfiles()
         {
             DirectoryInfo searchDir = new DirectoryInfo(Environment.CurrentDirectory);
