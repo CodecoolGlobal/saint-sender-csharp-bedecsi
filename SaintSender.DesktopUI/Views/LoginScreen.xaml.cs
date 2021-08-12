@@ -13,7 +13,7 @@ namespace SaintSender.DesktopUI.Views
     public partial class LoginScreen : Window
     {
 
-        private readonly MainWindow MainWindow;
+        private MainWindow MainWindow;
         private readonly EmailService EmailService;
         private readonly Credentials Credentials;
         private readonly Serializer Serializer;
@@ -23,7 +23,6 @@ namespace SaintSender.DesktopUI.Views
         public LoginScreen()
         {
             InitializeComponent();
-            MainWindow = new MainWindow();
             EmailService = new EmailService();
             Credentials = new Credentials();
             Serializer = new Serializer(Credentials);
@@ -52,9 +51,9 @@ namespace SaintSender.DesktopUI.Views
                         if (file.Name.Equals(txtUsername.Text + ".xml"))
                         {
                             SetCredential();
+                            // set MainWindow Credential
+                            MainWindow = new MainWindow(Credentials);
                             MainWindow.Serializer.credentials = Credentials;
-                            MainWindow.Credentials = Credentials;
-
                             MainWindow.Show();
                             Close();
                             return;
@@ -68,8 +67,10 @@ namespace SaintSender.DesktopUI.Views
 
                     Serializer.XMLsave();
                     MainWindow.Serializer.credentials = Credentials;
-                    MainWindow.Credentials = Credentials;
 
+                    Serializer.XMLsave();
+                    // set MainWindow Credential
+                    MainWindow = new MainWindow(Credentials);
                     MainWindow.Show();
                     Close();
                     return;
@@ -85,8 +86,8 @@ namespace SaintSender.DesktopUI.Views
                 if (OfflineVerification())
                 {
                     SetCredential();
-                    MainWindow.Serializer.credentials = Credentials;
-                    MainWindow.Credentials = Credentials;
+                    // set MainWindow Credential
+                    MainWindow = new MainWindow(Credentials);
                     MainWindow.Show();
                     Close();
                 }

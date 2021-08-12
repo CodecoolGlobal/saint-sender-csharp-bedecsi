@@ -7,23 +7,30 @@
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="900"
       Title="Inbox">
-        <Grid>
+    <Window.Resources>
+        
+            <Style x:Key="ItemStyle" TargetType="{x:Type ListViewItem}">
+                <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick" />
+            </Style>
+       
+    </Window.Resources>
+    <Grid>
             <Label x:Name="WelcomeText" Content="Welcome user!" HorizontalAlignment="Left" Height="31" Margin="10,10,0,0" VerticalAlignment="Top" Width="149"/>
-            <Button x:Name="NewEmailButton" Content="New Email" HorizontalAlignment="Left" Height="31" Margin="10,57,0,0" VerticalAlignment="Top" Width="127" Click="NewEmailButton_Click"/>
+            <Button x:Name="NewEmailButton" Content="New Email" HorizontalAlignment="Left" Height="31" Margin="10,57,0,0" VerticalAlignment="Top" Width="127"/>
             <Button x:Name="BackupButton" Content="Backup" HorizontalAlignment="Left" Height="31" Margin="10,104,0,0" VerticalAlignment="Top" Width="127" Click="BackupButton_Click"/>
-            <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Left" Height="31" Margin="774,10,0,0" VerticalAlignment="Top" Width="56" Click="NextButton_Click"/>
-            <Button x:Name="PrevButton" Content="Prev" HorizontalAlignment="Left" Height="31" Margin="713,10,0,0" VerticalAlignment="Top" Width="56" Click="PrevButton_Click"/>
-            <Button x:Name="RefreshButton" Content="Refresh" HorizontalAlignment="Left" Height="31" Margin="626,10,0,0" VerticalAlignment="Top" Width="56" Click="RefreshButton_Click"/>
-            <ListView x:Name="EmailsListView" HorizontalAlignment="Left" Height="342" Margin="170,57,0,0" VerticalAlignment="Top" Width="660">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Sender" Width="130" DisplayMemberBinding="{Binding Sender}"/>
-                        <GridViewColumn Header="Subject" Width="150" DisplayMemberBinding="{Binding Subject}"/>
-                        <GridViewColumn Header="Body" Width="250" DisplayMemberBinding="{Binding Body}"/>
-                        <GridViewColumn Header="Date" Width="120" DisplayMemberBinding="{Binding Date}"/>
+            <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Left" Height="31" Margin="774,10,0,0" VerticalAlignment="Top" Width="56"/>
+            <Button x:Name="PrevButton" Content="Prev" HorizontalAlignment="Left" Height="31" Margin="713,10,0,0" VerticalAlignment="Top" Width="56"/>
+                <Button x:Name="RefreshButton" Content="Refresh" HorizontalAlignment="Left" Height="31" Margin="626,10,0,0" VerticalAlignment="Top" Width="56"/>
+                <ListView x:Name="EmailsListView" ItemContainerStyle="{StaticResource ItemStyle}" HorizontalAlignment="Left" Height="342" Margin="170,57,0,0" VerticalAlignment="Top" Width="660">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Sender" Width="130" DisplayMemberBinding="{Binding Sender}"/>
+                    <GridViewColumn Header="Subject" Width="150" DisplayMemberBinding="{Binding Subject}"/>
+                    <GridViewColumn Header="Body" Width="250" DisplayMemberBinding="{Binding Body}"/>
+                    <GridViewColumn Header="Date" Width="120" DisplayMemberBinding="{Binding Date}"/>
                 </GridView>
-                </ListView.View>
-            </ListView>
+            </ListView.View>
+        </ListView>
             <TextBox x:Name="SerchTextBox" HorizontalAlignment="Left" Height="31" TextWrapping="Wrap" Text="Search here..." VerticalAlignment="Top" Width="161" Margin="170,10,0,0"/>
             <Button x:Name="SearchButton" Content="Search" HorizontalAlignment="Left" Height="31" Margin="336,10,0,0" VerticalAlignment="Top" Width="56"/>
             <Button x:Name="LogoutlButton" Click="LogoutlButton_Click"  Content="Logout" HorizontalAlignment="Left" Height="31" Margin="10,151,0,0" VerticalAlignment="Top" Width="127"/>

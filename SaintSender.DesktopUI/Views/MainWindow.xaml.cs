@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using SaintSender.Core.Models;
 using SaintSender.DesktopUI.ViewModels;
 using SaintSender.DesktopUI.Views;
@@ -12,17 +14,17 @@ namespace SaintSender.DesktopUI
     /// </summary>
     public partial class MainWindow : Window
     {
-
         private readonly MainWindowViewModel _vm;
         private readonly NewEmail NewEmail;
-
+        private EmailDetailWindow _emailDetailWindow;
         public Serializer Serializer { get; set; }
-        public Credentials Credentials { get; set; }
+        public Credentials LoggedInUser { get; }
 
-        public MainWindow()
+        public MainWindow(Credentials loggedInUser)
         {
+            LoggedInUser = loggedInUser;
             // set DataContext to the ViewModel object
-            _vm = new MainWindowViewModel();
+            _vm = new MainWindowViewModel(loggedInUser);
             DataContext = _vm;
             Serializer = new Serializer();
             InitializeComponent();
@@ -46,7 +48,7 @@ namespace SaintSender.DesktopUI
             {
                 EmailsListView.ItemsSource = _vm.Emails;
             }
-            NewEmail = new NewEmail();
+            NewEmail = new NewEmail(LoggedInUser);
         }
 
         private void NewEmailButton_Click(object sender, RoutedEventArgs e)
@@ -85,15 +87,25 @@ namespace SaintSender.DesktopUI
 
         private void BackupButton_Click(object sender, RoutedEventArgs e)
         {
-            _vm.CollectAllEmails(new Credentials("bedecsi2ndtw1@gmail.com", "IHateWPF", ""));
+            _vm.CollectAllEmails(LoggedInUser);
             Serializer.XMLbackup(_vm.Emails);
             MessageBox.Show("Backup created");
         }
+    
 
         private void SetEmails()
         {
-            _vm.CollectEmails(new Credentials("bedecsi2ndtw1@gmail.com", "IHateWPF", ""));
+            _vm.CollectEmails(LoggedInUser);
             EmailsListView.ItemsSource = _vm.Emails;
         }
+
+        void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Control control = (Control)sender;
+            Email clickedItem = (Email)control.DataContext;
+            _emailDetailWindow = new EmailDetailWindow(LoggedInUser, clickedItem);
+            _emailDetailWindow.Show();
+        }
+
     }
 }

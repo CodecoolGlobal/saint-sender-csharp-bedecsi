@@ -7,6 +7,7 @@ using MailKit.Search;
 using MailKit.Security;
 using MimeKit;
 using SaintSender.Core.Models;
+using System.Windows.Forms;
 
 namespace SaintSender.Core.Services
 {

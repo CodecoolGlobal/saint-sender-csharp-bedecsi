@@ -29,10 +29,10 @@ namespace SaintSender.DesktopUI.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(Credentials loggedInUser)
         {
             EmailService = new EmailService();
-            CollectEmails(new Credentials("bedecsi2ndtw1@gmail.com", "IHateWPF", ""));
+            CollectEmails(loggedInUser);
         }
 
         public void CollectEmails(Credentials loggedInUser)
