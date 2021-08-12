@@ -53,11 +53,10 @@ namespace SaintSender.DesktopUI.ViewModels
 
         public void PrevPage()
         {
-            if (EmailService.PageNumber >= 1)
+            if (EmailService.PageNumber > 1)
             {
-                return;
+                EmailService.PageNumber -= 1;
             }
-            EmailService.PageNumber -= 1;
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
