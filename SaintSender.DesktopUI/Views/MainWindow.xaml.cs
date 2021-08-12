@@ -10,6 +10,7 @@ namespace SaintSender.DesktopUI
     public partial class MainWindow : Window
     {
         public Serializer _serializer { get; set; }
+        public Credentials Credentials { get; set; }
         private MainWindowViewModel _vm;
 
         public MainWindow()

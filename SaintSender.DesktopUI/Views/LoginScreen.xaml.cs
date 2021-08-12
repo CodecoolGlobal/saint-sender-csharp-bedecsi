@@ -54,7 +54,8 @@ namespace SaintSender.DesktopUI.Views
                         {
                             setCredential();
                             MainWindow._serializer.credentials = Credentials;
-                        // set MainWindow Credential
+                            MainWindow.Credentials = Credentials;
+                        
                             MainWindow.Show();
                             Close();
                             return;
@@ -67,7 +68,8 @@ namespace SaintSender.DesktopUI.Views
                     serializer.credentials.Password = hashedPass;
 
                     serializer.XMLsave();
-                    // set MainWindow Credential
+                    MainWindow.Credentials = Credentials;
+                    
                     MainWindow.Show();
                     Close();
                     return;
@@ -82,7 +84,7 @@ namespace SaintSender.DesktopUI.Views
                if(offlineVerification())
                 {
                     setCredential();
-                    // set MainWindow Credential
+                    MainWindow.Credentials = Credentials;
                     MainWindow.Show();
                     Close();
                 } else
