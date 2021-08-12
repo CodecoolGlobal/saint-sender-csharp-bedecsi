@@ -26,7 +26,7 @@ namespace SaintSender.DesktopUI.Views
         private void SendBtn_Click(object sender, RoutedEventArgs e)
         {
             _vm.SendEmail(to.Text, Credentials, subject.Text, body.Text);
-
+            Close();
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
