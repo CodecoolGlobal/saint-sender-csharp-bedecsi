@@ -12,8 +12,6 @@
         <StackPanel Margin="10">
             <Label Content="To:" Target="{Binding ElementName=to}"/>
             <TextBox x:Name="to" Width="100" HorizontalAlignment="Left"/>
-            <Label Content="Cc:" Target="{Binding ElementName=cc}"/>
-            <TextBox x:Name="cc" Width="100" HorizontalAlignment="Left"/>
             <Label Content="Subject:" Target="{Binding ElementName=subject}"/>
             <TextBox x:Name="subject" Width="100" HorizontalAlignment="Left"/>
             <Label Content="Body:" Target="{Binding ElementName=body}"/>
