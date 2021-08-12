@@ -76,7 +76,7 @@
     <Compile Include="Views\EmailDetailWindow.xaml.cs">
       <DependentUpon>EmailDetailWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\EmailDetailWindowViewModel.cs" />
+    <Compile Include="ViewModels\EmailDetailWindowViewModel.cs" />
     <Compile Include="Views\NewEmail.xaml.cs">
       <DependentUpon>NewEmail.xaml</DependentUpon>
     </Compile>
