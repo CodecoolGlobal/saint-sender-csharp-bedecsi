@@ -13,7 +13,7 @@ namespace SaintSender.DesktopUI.Views
     {
         public Credentials Credentials { get; set; }
 
-        NewEmailViewModel _vm;
+        private readonly NewEmailViewModel _vm;
         public NewEmail()
         {
             _vm = new NewEmailViewModel();
