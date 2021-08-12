@@ -4,16 +4,16 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SaintSender.DesktopUI.Views"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="900"
       Title="Inbox">
         <Grid>
             <Label x:Name="WelcomeText" Content="Welcome user!" HorizontalAlignment="Left" Height="31" Margin="10,10,0,0" VerticalAlignment="Top" Width="149"/>
-            <Button x:Name="NewEmailButton" Content="New Email" HorizontalAlignment="Left" Height="31" Margin="10,57,0,0" VerticalAlignment="Top" Width="127"/>
+            <Button x:Name="NewEmailButton" Content="New Email" HorizontalAlignment="Left" Height="31" Margin="10,57,0,0" VerticalAlignment="Top" Width="127" Click="NewEmailButton_Click"/>
             <Button x:Name="BackupButton" Content="Backup" HorizontalAlignment="Left" Height="31" Margin="10,104,0,0" VerticalAlignment="Top" Width="127"/>
-            <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Left" Height="31" Margin="774,10,0,0" VerticalAlignment="Top" Width="56"/>
-            <Button x:Name="PrevButton" Content="Prev" HorizontalAlignment="Left" Height="31" Margin="713,10,0,0" VerticalAlignment="Top" Width="56"/>
-            <Button x:Name="RefreshButton" Content="Refresh" HorizontalAlignment="Left" Height="31" Margin="626,10,0,0" VerticalAlignment="Top" Width="56"/>
+            <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Left" Height="31" Margin="774,10,0,0" VerticalAlignment="Top" Width="56" Click="NextButton_Click"/>
+            <Button x:Name="PrevButton" Content="Prev" HorizontalAlignment="Left" Height="31" Margin="713,10,0,0" VerticalAlignment="Top" Width="56" Click="PrevButton_Click"/>
+            <Button x:Name="RefreshButton" Content="Refresh" HorizontalAlignment="Left" Height="31" Margin="626,10,0,0" VerticalAlignment="Top" Width="56" Click="RefreshButton_Click"/>
             <ListView x:Name="EmailsListView" HorizontalAlignment="Left" Height="342" Margin="170,57,0,0" VerticalAlignment="Top" Width="660">
                 <ListView.View>
                     <GridView>

@@ -1,4 +1,7 @@
 ﻿using SaintSender.Core.Models;
+using SaintSender.Core.Services;
+using SaintSender.DesktopUI.ViewModels;
+using SaintSender.DesktopUI.Views;
 using SaintSender.DesktopUI.ViewModels;
 using System.Windows;
 
@@ -9,8 +12,11 @@ namespace SaintSender.DesktopUI
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private readonly MainWindowViewModel _vm;
+        private readonly NewEmail NewEmail;
+
         public Serializer _serializer { get; set; }
-        private MainWindowViewModel _vm;
 
         public MainWindow()
         {
@@ -20,9 +26,36 @@ namespace SaintSender.DesktopUI
             _serializer = new Serializer();
             InitializeComponent();
             EmailsListView.ItemsSource = _vm.Emails;
+            NewEmail = new NewEmail();
+        }
+
+        private void NewEmailButton_Click(object sender, RoutedEventArgs e)
+        {
+            NewEmail.Show();
         }
 
 
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            _vm.CollectEmails(new Credentials("bedecsi2ndtw1@gmail.com", "IHateWPF", ""));
+            EmailsListView.ItemsSource = _vm.Emails;
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            _vm.NextPage();
+            _vm.CollectEmails(new Credentials("bedecsi2ndtw1@gmail.com", "IHateWPF", ""));
+            EmailsListView.ItemsSource = _vm.Emails;
+        }
+
+        private void PrevButton_Click(object sender, RoutedEventArgs e)
+        {
+            _vm.PrevPage();
+            _vm.CollectEmails(new Credentials("bedecsi2ndtw1@gmail.com", "IHateWPF", ""));
+            EmailsListView.ItemsSource = _vm.Emails;
+        }
+    }
+}
         private void LogoutlButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -36,3 +69,4 @@ namespace SaintSender.DesktopUI
     }
 
 }
+
