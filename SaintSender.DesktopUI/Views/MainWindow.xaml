@@ -26,9 +26,9 @@
             </ListView>
             <TextBox x:Name="SerchTextBox" HorizontalAlignment="Left" Height="31" TextWrapping="Wrap" Text="Search here..." VerticalAlignment="Top" Width="161" Margin="170,10,0,0"/>
             <Button x:Name="SearchButton" Content="Search" HorizontalAlignment="Left" Height="31" Margin="336,10,0,0" VerticalAlignment="Top" Width="56"/>
-            <Button x:Name="LogoutlButton" Content="Logout" HorizontalAlignment="Left" Height="31" Margin="10,151,0,0" VerticalAlignment="Top" Width="127"/>
-
-        </Grid>
+            <Button x:Name="LogoutlButton" Click="LogoutlButton_Click"  Content="Logout" HorizontalAlignment="Left" Height="31" Margin="10,151,0,0" VerticalAlignment="Top" Width="127"/>
+        <Button x:Name="ForgetMeButton" Click="Delete_Credentials" Content="Forget Me" HorizontalAlignment="Left" Height="31"  VerticalAlignment="Top" Width="127" Margin="10,197,0,0"/>
+    </Grid>
 
  </Window>
 

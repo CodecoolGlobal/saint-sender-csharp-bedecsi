@@ -2,6 +2,7 @@
 using SaintSender.Core.Services;
 using SaintSender.DesktopUI.ViewModels;
 using SaintSender.DesktopUI.Views;
+using SaintSender.DesktopUI.ViewModels;
 using System.Windows;
 
 namespace SaintSender.DesktopUI
@@ -11,14 +12,18 @@ namespace SaintSender.DesktopUI
     /// </summary>
     public partial class MainWindow : Window
     {
+
         private readonly MainWindowViewModel _vm;
         private readonly NewEmail NewEmail;
+
+        public Serializer _serializer { get; set; }
 
         public MainWindow()
         {
             // set DataContext to the ViewModel object
             _vm = new MainWindowViewModel();
             DataContext = _vm;
+            _serializer = new Serializer();
             InitializeComponent();
             EmailsListView.ItemsSource = _vm.Emails;
             NewEmail = new NewEmail();
@@ -28,6 +33,7 @@ namespace SaintSender.DesktopUI
         {
             NewEmail.Show();
         }
+
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
@@ -50,3 +56,17 @@ namespace SaintSender.DesktopUI
         }
     }
 }
+        private void LogoutlButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Delete_Credentials(object sender, RoutedEventArgs e)
+        {
+            _serializer.DeleteXMLfiles();
+            MessageBox.Show("Your Credentials have been removed!");
+        }
+    }
+
+}
+

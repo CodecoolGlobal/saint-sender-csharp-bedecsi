@@ -17,7 +17,6 @@ namespace SaintSender.DesktopUI.Views
         private EmailService emailService;
         private Credentials Credentials;
         private Serializer serializer;
-        private NewEmail NewEmail;
 
 
 
@@ -54,6 +53,7 @@ namespace SaintSender.DesktopUI.Views
                         if (file.Name.Equals(txtUsername.Text+".xml"))
                         {
                             setCredential();
+                            MainWindow._serializer.credentials = Credentials;
                         // set MainWindow Credential
                             MainWindow.Show();
                             Close();
@@ -62,6 +62,10 @@ namespace SaintSender.DesktopUI.Views
                     }
                     
                     setCredential();
+
+                    var hashedPass = BCrypt.Net.BCrypt.HashPassword(txtPassword.Password);
+                    serializer.credentials.Password = hashedPass;
+
                     serializer.XMLsave();
                     // set MainWindow Credential
                     MainWindow.Show();
@@ -96,7 +100,7 @@ namespace SaintSender.DesktopUI.Views
                 if (file.Name.Equals(txtUsername.Text + ".xml"))
                 {
                     Credentials LoadCredentials = serializer.ReadXML(file);
-                    return LoadCredentials.Password == txtPassword.Password;
+                    return BCrypt.Net.BCrypt.Verify(txtPassword.Password, LoadCredentials.Password);
                 }
             }
             return false;
