@@ -33,6 +33,7 @@ namespace SaintSender.Core.Models
 
         public void XMLbackup(List<Email> emails)
         {
+            Directory.CreateDirectory(Environment.CurrentDirectory + "\\Backup\\");
             XmlSerializer serializer = new XmlSerializer(typeof(List<Email>), new XmlRootAttribute("Emails"));
             using (TextWriter textWriter = new StreamWriter(Environment.CurrentDirectory + "\\Backup\\backup.xml"))
             {
