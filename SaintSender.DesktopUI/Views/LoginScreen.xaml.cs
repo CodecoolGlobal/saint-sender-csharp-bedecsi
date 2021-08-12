@@ -64,13 +64,12 @@ namespace SaintSender.DesktopUI.Views
 
                     var hashedPass = BCrypt.Net.BCrypt.HashPassword(txtPassword.Password);
                     Serializer.credentials.Password = hashedPass;
-
                     Serializer.XMLsave();
-                    MainWindow.Serializer.credentials = Credentials;
+                    Credentials.Password = txtPassword.Password;
 
-                    Serializer.XMLsave();
                     // set MainWindow Credential
                     MainWindow = new MainWindow(Credentials);
+                    
                     MainWindow.Show();
                     Close();
                     return;

@@ -73,7 +73,7 @@ namespace SaintSender.Core.Services
             using (var client = new ImapClient())
             {
                 client.Connect("imap.gmail.com", 993, true);
-
+                client.CheckCertificateRevocation = false;
                 client.Authenticate(email.EmailAddress, email.Password);
                 client.Inbox.Open(FolderAccess.ReadOnly);
 
