@@ -73,7 +73,7 @@ namespace SaintSender.Core.Services
             using (var client = new ImapClient())
             {
                 client.Connect("imap.gmail.com", 993, true);
-                client.CheckCertificateRevocation = false;
+
                 client.Authenticate(email.EmailAddress, email.Password);
                 client.Inbox.Open(FolderAccess.ReadOnly);
 
@@ -83,7 +83,12 @@ namespace SaintSender.Core.Services
                 if (client.IsConnected && client.IsAuthenticated)
                 {
                     CurrentIndex = PageNumber * MAX_EMAILS_ON_PAGE - MAX_EMAILS_ON_PAGE;
-                    for (int i = CurrentIndex; i < PageNumber * MAX_EMAILS_ON_PAGE; i++)
+                    if (CurrentIndex >= items.Count)
+                    {
+                        CurrentIndex -= MAX_EMAILS_ON_PAGE;
+                        PageNumber -= 1;
+                    }
+                    for (int i = CurrentIndex; i < (PageNumber * MAX_EMAILS_ON_PAGE <= items.Count ? PageNumber * MAX_EMAILS_ON_PAGE : items.Count); i++)
                     {
                         var message = client.Inbox.GetMessage(i);
                         emails.Add(new Email(message.From.ToString(), message.Subject, message.Date.UtcDateTime, message.TextBody.ToString()));
