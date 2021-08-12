@@ -13,7 +13,7 @@ namespace SaintSender.Core.Services
 {
     public class EmailService
     {
-        public const int MAX_EMAILS_ON_PAGE = 3;
+        public const int MAX_EMAILS_ON_PAGE = 10;
 
         public static int PageNumber { get; set; } = 1;
         public static int CurrentIndex { get; set; } = 0;
