@@ -23,7 +23,7 @@ namespace SaintSender.Core.Services
             {
                 client.CheckCertificateRevocation = false;
                 client.Connect("smtp.gmail.com", 587, SecureSocketOptions.Auto);
-                
+
                 try
                 {
                     client.Authenticate(username, password);
@@ -36,9 +36,9 @@ namespace SaintSender.Core.Services
                     client.Disconnect(true);
                     return false;
                 }
-           
+
             }
-                      
+
         }
 
         public void Send(string to, Credentials from, string subject, string content)
@@ -72,7 +72,7 @@ namespace SaintSender.Core.Services
                 client.Inbox.Open(FolderAccess.ReadOnly);
 
                 var items = client.Inbox.Search(SearchQuery.All);
-                
+
                 // else is needed for testing purposes
                 if (client.IsConnected && client.IsAuthenticated)
                 {
@@ -90,7 +90,7 @@ namespace SaintSender.Core.Services
                     emails.Add(new Email("hellowpf@gmail.com", "Retrieved message", DateTime.Now.Date, "This is a test message from code"));
                     return emails;
                 }
-                
+
             }
         }
 
