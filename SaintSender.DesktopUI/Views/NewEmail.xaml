@@ -6,19 +6,19 @@
       xmlns:local="clr-namespace:SaintSender.DesktopUI.Views"
       mc:Ignorable="d" 
       d:DesignHeight="550" d:DesignWidth="800"
-      Title="NewEmail">
+      Title="NewEmail" Background="#93A3B1">
 
-    <Grid Background="#FFA8A8A8">
+    <Grid>
         <StackPanel Margin="10">
-            <Label Content="To:" Target="{Binding ElementName=to}"/>
+            <Label Foreground="White" Content="To:" Target="{Binding ElementName=to}"/>
             <TextBox x:Name="to" Width="100" HorizontalAlignment="Left"/>
-            <Label Content="Subject:" Target="{Binding ElementName=subject}"/>
+            <Label Foreground="White" Content="Subject:" Target="{Binding ElementName=subject}"/>
             <TextBox x:Name="subject" Width="100" HorizontalAlignment="Left"/>
-            <Label Content="Body:" Target="{Binding ElementName=body}"/>
+            <Label Foreground="White" Content="Body:" Target="{Binding ElementName=body}"/>
             <TextBox x:Name="body" HorizontalAlignment="Left" Height="309" Width="780" Background="White" AcceptsReturn="True" AcceptsTab="True" Margin="0,0,-6,0"/>
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="send" Content="Send" Width="50" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="SendBtn_Click"/>
-                <Button x:Name="cancel" Content="Cancel" Width="50" HorizontalAlignment="Left" Click="CancelBtn_Click"/>
+                <Button Background="#7C898B" Foreground="White" FontSize="15" x:Name="send" Content="Send" Width="50" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="SendBtn_Click"/>
+                <Button Background="#7C898B" Foreground="White" FontSize="15" x:Name="cancel" Content="Cancel" Width="50" HorizontalAlignment="Left" Click="CancelBtn_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>

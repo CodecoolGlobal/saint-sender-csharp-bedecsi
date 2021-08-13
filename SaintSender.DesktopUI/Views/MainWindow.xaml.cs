@@ -28,6 +28,7 @@ namespace SaintSender.DesktopUI
             DataContext = _vm;
             Serializer = new Serializer(loggedInUser);
             InitializeComponent();
+            WelcomeUserText.Content = LoggedInUser.Name;
             if (File.Exists(Environment.CurrentDirectory + "\\Backup\\backup.xml"))
             {
                 var boxButton = MessageBoxButton.YesNo;
