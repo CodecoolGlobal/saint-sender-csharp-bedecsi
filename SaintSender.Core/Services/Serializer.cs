@@ -79,24 +79,24 @@ namespace SaintSender.Core.Models
             {
                 try
                 {
-                    if (credentials != null)
-                    {
-                        if (file.Name.Equals(credentials.EmailAddress + ".xml"))
-                        {
-                            file.Delete();
-
-                        }
-                    }
                     
+                    if (file.Name.Equals(credentials.EmailAddress + ".xml"))
+                    {
+                        file.Delete();
+                        MessageBox.Show("Your Credentials have been removed!");
+                        return;
+                    }
+                   
                 }
                 catch (NullReferenceException)
                 {
 
-                    MessageBox.Show("Your credentials are already deleted!");
+                    MessageBox.Show("Error! There are no Credentials to delete!");
+                    return;
                 }
-                
-
+               
             }
+            MessageBox.Show("Your Credentials are already deleted!");
         }
     }
 }
