@@ -79,11 +79,15 @@ namespace SaintSender.Core.Models
             {
                 try
                 {
-                    if (file.Name.Equals(credentials.EmailAddress + ".xml"))
+                    if (credentials != null)
                     {
-                        file.Delete();
+                        if (file.Name.Equals(credentials.EmailAddress + ".xml"))
+                        {
+                            file.Delete();
 
+                        }
                     }
+                    
                 }
                 catch (NullReferenceException)
                 {
