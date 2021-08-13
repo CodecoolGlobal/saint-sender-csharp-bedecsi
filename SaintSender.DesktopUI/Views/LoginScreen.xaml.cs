@@ -119,7 +119,7 @@ namespace SaintSender.DesktopUI.Views
             }
             else
             {
-                MessageBox.Show("Don't haven internet connection.");
+                MessageBox.Show("Don't have internet connection.");
             }
         }
 

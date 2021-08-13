@@ -40,12 +40,14 @@ namespace SaintSender.DesktopUI
                         EmailsListView.ItemsSource = Serializer.ReadXMLbackup();
                         break;
                     case MessageBoxResult.No:
+                        _vm.CollectEmails(loggedInUser);
                         EmailsListView.ItemsSource = _vm.Emails;
                         break;
                 }
             }
             else
             {
+                _vm.CollectEmails(loggedInUser);
                 EmailsListView.ItemsSource = _vm.Emails;
             }
             NewEmail = new NewEmail(LoggedInUser);
