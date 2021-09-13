@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace SaintSender.Core.Models
@@ -76,13 +77,26 @@ namespace SaintSender.Core.Models
             FileInfo[] XMLfiles = GetXMLfiles();
             foreach (FileInfo file in XMLfiles)
             {
-                if (file.Name.Equals(credentials.EmailAddress + ".xml"))
+                try
                 {
-                    file.Delete();
-
+                    
+                    if (file.Name.Equals(credentials.EmailAddress + ".xml"))
+                    {
+                        file.Delete();
+                        MessageBox.Show("Your Credentials have been removed!");
+                        return;
+                    }
+                   
                 }
+                catch (NullReferenceException)
+                {
 
+                    MessageBox.Show("Error! There are no Credentials to delete!");
+                    return;
+                }
+               
             }
+            MessageBox.Show("Your Credentials are already deleted!");
         }
     }
 }

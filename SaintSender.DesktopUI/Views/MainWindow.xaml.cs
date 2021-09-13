@@ -26,8 +26,9 @@ namespace SaintSender.DesktopUI
             // set DataContext to the ViewModel object
             _vm = new MainWindowViewModel(loggedInUser);
             DataContext = _vm;
-            Serializer = new Serializer();
+            Serializer = new Serializer(loggedInUser);
             InitializeComponent();
+            WelcomeUserText.Content = LoggedInUser.Name;
             if (File.Exists(Environment.CurrentDirectory + "\\Backup\\backup.xml"))
             {
                 var boxButton = MessageBoxButton.YesNo;
@@ -40,12 +41,14 @@ namespace SaintSender.DesktopUI
                         EmailsListView.ItemsSource = Serializer.ReadXMLbackup();
                         break;
                     case MessageBoxResult.No:
+                        _vm.CollectEmails(loggedInUser);
                         EmailsListView.ItemsSource = _vm.Emails;
                         break;
                 }
             }
             else
             {
+                _vm.CollectEmails(loggedInUser);
                 EmailsListView.ItemsSource = _vm.Emails;
             }
             NewEmail = new NewEmail(LoggedInUser);
@@ -83,7 +86,6 @@ namespace SaintSender.DesktopUI
         private void Delete_Credentials(object sender, RoutedEventArgs e)
         {
             Serializer.DeleteXMLfiles();
-            MessageBox.Show("Your Credentials have been removed!");
         }
 
         private void Search_Submit(object sender, RoutedEventArgs e)
